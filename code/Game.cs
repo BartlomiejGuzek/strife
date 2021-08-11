@@ -1,5 +1,9 @@
 ﻿using Sandbox;
+using Sandbox.UI;
+using strife;
+using strife.ui;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
@@ -9,6 +13,8 @@ using System.Linq;
 [Library( "Strife", Title = "Strife" )]
 partial class StrifeGame : Game
 {
+	[Net]
+	public Teams Teams { get; protected set; }
 	public StrifeGame()
 	{
 		//
@@ -16,9 +22,13 @@ partial class StrifeGame : Game
 		// and will create the UI panels clientside. It's accessible 
 		// globally via Hud.Current, so we don't need to store it.
 		//
+
+		Teams = new Teams();
+
 		if ( IsServer )
 		{
 			new PlayerHud();
+			//ChatBox.AddInformation( "Change team" );
 		}
 	}
 
@@ -31,11 +41,21 @@ partial class StrifeGame : Game
 
 	public override void ClientJoined( Client cl )
 	{
-		base.ClientJoined( cl );
-
 		var player = new StrifePlayer();
+		//new TeamSelectionMenu();
 		player.Respawn();
-
 		cl.Pawn = player;
+		base.ClientJoined( cl );
 	}
+	public static void ChangeTeam( Client client)
+	{
+		if ( client == null || Current is not StrifeGame strifeGame )
+		{
+			return;
+		}
+		strifeGame.Teams.AssignPlayer( client, Team.Green );
+		//Log.Info( "change team" );
+	}
+	
+
 }
