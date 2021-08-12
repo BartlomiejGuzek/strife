@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace strife
 {
-	public enum Team : sbyte { Unassigned = 0, Spectator = 1, Green = 2, Red = 3 }
+	public enum Team : sbyte { Spectator = 0, Green = 1, Red = 2 }
 	public partial class Teams : Entity
 	{
 		[Net]
@@ -18,7 +18,6 @@ namespace strife
 			PlayerTeams = new List<Team>( new Team[64] );
 			Transmit = TransmitType.Always;
 		}
-
 		public bool AssignPlayer(Client client, Team teamName)
 		{
 			PlayerTeams[client.NetworkIdent - 1] = teamName;
@@ -28,12 +27,14 @@ namespace strife
 			}
 			return true;
 		}
-
-		public bool RemovePlayer(Client client, Team teamName )
+		public bool RemovePlayer(Client client)
 		{
-
+			Team currentTeam = PlayerTeams[client.NetworkIdent - 1];
+			PlayerTeams[client.NetworkIdent - 1] = 0;
+			Log.Info( $"{ client.Name } { "Has been removed from " + currentTeam + " team" }" );
 			return true;
 		}
 
+		
 	}
 }

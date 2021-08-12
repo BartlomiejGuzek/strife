@@ -92,7 +92,7 @@ partial class StrifePlayer : Player
 
 		if(Input.Pressed(InputButton.Attack2))
 		{
-			StrifeGame.ChangeTeam(cl);
+			//StrifeGame.ChangeTeam(cl);
 		}
 
 		if ( Input.Pressed( InputButton.View ) )

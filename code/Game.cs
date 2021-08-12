@@ -43,19 +43,38 @@ partial class StrifeGame : Game
 	{
 		var player = new StrifePlayer();
 		//new TeamSelectionMenu();
+		//Get teamName from TeamSelectionMenu
+		//Hack for now
+		var teamNumer = Rand.Int( 1, 2 );
+		AssignPlayerToTeam( cl, (Team)teamNumer );
 		player.Respawn();
 		cl.Pawn = player;
 		base.ClientJoined( cl );
 	}
-	public static void ChangeTeam( Client client)
+	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	{
+		RemovePlayerFromTeam( cl );
+		base.ClientDisconnect( cl, reason );
+	}
+	public static void AssignPlayerToTeam( Client client, Team teamName )
 	{
 		if ( client == null || Current is not StrifeGame strifeGame )
 		{
 			return;
 		}
-		strifeGame.Teams.AssignPlayer( client, Team.Green );
-		//Log.Info( "change team" );
+		strifeGame.Teams.AssignPlayer( client, teamName );
 	}
-	
+
+	public static void RemovePlayerFromTeam( Client client )
+	{
+		if ( client == null || Current is not StrifeGame strifeGame )
+		{
+			return;
+		}
+		strifeGame.Teams.RemovePlayer( client );
+	}
+
+
+
 
 }
