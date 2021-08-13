@@ -31,14 +31,11 @@ partial class StrifeGame : Game
 			//ChatBox.AddInformation( "Change team" );
 		}
 	}
-
 	public override void PostLevelLoaded()
 	{
 		base.PostLevelLoaded();
-
 		ItemRespawn.Init();
 	}
-
 	public override void ClientJoined( Client cl )
 	{
 		var player = new StrifePlayer();
@@ -64,7 +61,6 @@ partial class StrifeGame : Game
 		}
 		strifeGame.Teams.AssignPlayer( client, teamName );
 	}
-
 	public static void RemovePlayerFromTeam( Client client )
 	{
 		if ( client == null || Current is not StrifeGame strifeGame )
@@ -73,8 +69,13 @@ partial class StrifeGame : Game
 		}
 		strifeGame.Teams.RemovePlayer( client );
 	}
-
-
-
+	public static Team GetPlayerTeam( Client client )
+	{
+		if ( client == null || Current is not StrifeGame strifeGame )
+		{
+			return Team.Spectator;
+		}
+		return strifeGame.Teams.GetPlayerTeam( client );
+	}
 
 }

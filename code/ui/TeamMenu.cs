@@ -12,15 +12,10 @@ namespace strife.ui
 
 	class TeamMenu : Panel
 	{
-		private Button buttonGreen;
-		private Button buttonRed;
-		private Label playerCountGreen;
-		private Label playerCountRed;
-
 		public TeamMenu()
 		{
-			StyleSheet.Load( "/styles/_teamselectionmenu.scss" );
-			Add.Panel( "menu" );
+			//StyleSheet.Load( "/styles/_teamselectionmenu.scss" );
+			//Add.Panel( "menu" );
 		}
 
 	}

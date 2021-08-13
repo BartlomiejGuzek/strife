@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-partial class DmViewModel : BaseViewModel
+partial class StrifeViewModel : BaseViewModel
 {
 	float walkBob = 0;
 
@@ -11,7 +11,6 @@ partial class DmViewModel : BaseViewModel
 		base.PostCameraSetup( ref camSetup );
 
 		// camSetup.ViewModelFieldOfView = camSetup.FieldOfView + (FieldOfView - 80);
-
 		AddCameraEffects( ref camSetup );
 	}
 
