@@ -1,0 +1,7 @@
+@BaseClass = class : "A weapon"
+[
+  Name(string) : "Name" : "Class name"
+  Health(int) : "Health" : "100"
+  MovementSpeed(float) : "Movement speed" : "200"
+  Hat(string) : "Hat model" : ""
+]

@@ -7,10 +7,14 @@ using System.Threading;
 
 partial class StrifePlayer : Player
 {
+	
 	TimeSince timeSinceDropped;
 	DamageInfo LastDamage;
 	public static bool Debug { get; set; } = true;
+	public virtual int MaxHealth => 100;
+	public Team CurrentTeam;
 	public bool SupressPickupNotices { get; private set; }
+	//Client client;
 
 	public StrifePlayer()
 	{
@@ -29,8 +33,7 @@ partial class StrifePlayer : Player
 		EnableDrawing = true; 
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
-
-		Dress();
+		CurrentTeam = StrifeGame.GetPlayerTeam( this.GetClientOwner() );
 		ClearAmmo();
 		SupressPickupNotices = true;
 
@@ -67,7 +70,7 @@ partial class StrifePlayer : Player
 		//if ( cl.NetworkIdent == 1 )
 		//	return;
 		base.Simulate( cl );
-
+		//client = cl;
 		//===============DEBUG SECTION===============
 		if ( Debug )
 		{
@@ -92,7 +95,6 @@ partial class StrifePlayer : Player
 		TickPlayerUse();	
 		SimulateActiveChild( cl, ActiveChild );
 	}
-	
 	public override void StartTouch( Entity other )
 	{
 		if ( timeSinceDropped < 1 ) return;
@@ -133,5 +135,14 @@ partial class StrifePlayer : Player
 	{
 		//DebugOverlay.Sphere( pos, 5.0f, Color.Red, false, 50.0f );
 		DamageIndicator.Current?.OnHit( pos );
+	}
+	public void Heal( short healAmount )
+	{
+		if (healAmount <= 0)
+		{
+			return;
+		}
+		else
+			Health += healAmount;
 	}
 }

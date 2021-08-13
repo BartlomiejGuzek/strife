@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using strife;
+using strife.player.classes;
 using strife.ui;
 using System;
 using System.Collections.Generic;
@@ -38,10 +39,10 @@ partial class StrifeGame : Game
 	}
 	public override void ClientJoined( Client cl )
 	{
-		var player = new StrifePlayer();
+		//TODO Get class from selection menu
+		var player = new PlayerClass("Assault");
 		//new TeamSelectionMenu();
-		//Get teamName from TeamSelectionMenu
-		//Hack for now
+		//TODO Get teamName from TeamSelectionMenu
 		var teamNumer = Rand.Int( 1, 2 );
 		AssignPlayerToTeam( cl, (Team)teamNumer );
 		player.Respawn();
