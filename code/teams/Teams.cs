@@ -20,6 +20,10 @@ namespace strife
 		}
 		public bool AssignPlayer(Client client, Team teamName)
 		{
+			if( PlayerTeams[client.NetworkIdent - 1] != Team.Spectator)
+			{
+				RemovePlayer( client );
+			}
 			PlayerTeams[client.NetworkIdent - 1] = teamName;
 			if ( Host.IsServer )
 			{
@@ -29,7 +33,7 @@ namespace strife
 		}
 		public bool RemovePlayer(Client client)
 		{
-			Team currentTeam = GetPlayerTeam( client );
+			var currentTeam = GetPlayerTeam( client );
 			PlayerTeams[client.NetworkIdent - 1] = 0;
 			Log.Info( $"{ client.Name } { "Has been removed from " + currentTeam + " team" }" );
 			return true;

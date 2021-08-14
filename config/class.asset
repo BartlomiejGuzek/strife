@@ -3,5 +3,6 @@
   Name(string) : "Name" : "Class name"
   Health(int) : "Health" : "100"
   MovementSpeed(float) : "Movement speed" : "200"
+  SprintSpeed(float) : "Sprint speed" : "300"
   Hat(string) : "Hat model" : ""
 ]

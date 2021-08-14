@@ -40,11 +40,12 @@ partial class StrifeGame : Game
 	public override void ClientJoined( Client cl )
 	{
 		//TODO Get class from selection menu
-		var player = new PlayerClass("Assault");
-		//new TeamSelectionMenu();
-		//TODO Get teamName from TeamSelectionMenu
 		var teamNumer = Rand.Int( 1, 2 );
 		AssignPlayerToTeam( cl, (Team)teamNumer );
+		var player = new PlayerClass("Sniper");
+		player.CurrentTeam = GetPlayerTeam(cl);
+		//new TeamSelectionMenu();
+		//TODO Get teamName from TeamSelectionMenu
 		player.Respawn();
 		cl.Pawn = player;
 		base.ClientJoined( cl );
@@ -70,7 +71,7 @@ partial class StrifeGame : Game
 		}
 		strifeGame.Teams.RemovePlayer( client );
 	}
-	public static Team GetPlayerTeam( Client client )
+	public static Team GetPlayerTeam(Client client )
 	{
 		if ( client == null || Current is not StrifeGame strifeGame )
 		{

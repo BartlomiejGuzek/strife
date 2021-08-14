@@ -3,8 +3,9 @@
 	data = 
 	{
 		Name = "Sniper"
-		Health = 70
-		MovementSpeed = 300.0
+		Health = 100
+		MovementSpeed = 200.0
 		Hat = "models/citizen_clothes/hat/hat_woolly.vmdl"
+		SprintSpeed = 300.0
 	}
 }

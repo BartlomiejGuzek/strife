@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-partial class StrifePlayer
+partial class StrifeBasePlayer
 {
 	// TODO - make ragdolls one per entity
 	// TODO - make ragdolls dissapear after a load of seconds

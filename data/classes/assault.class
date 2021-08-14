@@ -6,5 +6,6 @@
 		Health = 200
 		MovementSpeed = 150.0
 		Hat = "models/citizen_clothes/hat/hat_securityhelmetnostrap.vmdl"
+		SprintSpeed = 200.0
 	}
 }

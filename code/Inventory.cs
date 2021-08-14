@@ -13,7 +13,7 @@ partial class StrifePlayerInventory : BaseInventory
 
 	public override bool Add( Entity ent, bool makeActive = false )
 	{
-		var player = Owner as StrifePlayer;
+		var player = Owner as StrifeBasePlayer;
 		var weapon = ent as BaseStrifeWeapon;
 		var notices = !player.SupressPickupNotices;
 		//

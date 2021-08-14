@@ -1,6 +1,8 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using strife.player;
+using strife.player.classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +35,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 
 	public int AvailableAmmo()
 	{
-		var owner = Owner as StrifePlayer;
+		var owner = Owner as StrifeBasePlayer;
 		if ( owner == null ) return 0;
 		return owner.AmmoCount( AmmoType );
 	}
@@ -70,7 +72,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 
 		TimeSinceReload = 0;
 
-		if ( Owner is StrifePlayer player )
+		if ( Owner is StrifeBasePlayer player )
 		{
 			if ( player.AmmoCount( AmmoType ) <= 0 )
 				return;
@@ -103,7 +105,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 	{
 		IsReloading = false;
 
-		if ( Owner is StrifePlayer player )
+		if ( Owner is StrifeBasePlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
 			if ( ammo == 0 )
@@ -151,8 +153,13 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
-
-				tr.Entity.TakeDamage( damage );
+				if ( tr.Entity is PlayerClass Player )
+				{
+					if ( Player.CurrentTeam != (damage.Attacker as PlayerClass).CurrentTeam )
+					{
+						tr.Entity.TakeDamage( damage );
+					}
+				}
 			}
 		}
 	}
@@ -203,7 +210,13 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 					.WithAttacker( Owner )
 					.WithWeapon( this );
 
-				tr.Entity.TakeDamage( damageInfo );
+				if ( tr.Entity is PlayerClass Player )
+				{
+					if ( Player.CurrentTeam != (damageInfo.Attacker as PlayerClass).CurrentTeam )
+					{
+						tr.Entity.TakeDamage( damageInfo );
+					}
+				}
 			}
 		}
 	}
