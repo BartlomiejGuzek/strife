@@ -72,6 +72,26 @@ partial class StrifeBasePlayer : Player
 		//
 		// Input requested a weapon switch
 		//
+		if ( Input.Pressed( InputButton.Jump ) )
+		{
+			if(!IsServer)
+			{
+				Log.Info( $"{ cl.Name } { "Has been called FFF" }" );
+
+				if( menu != null )
+				{
+					menu.Disable();
+					menu = null;
+				}
+				else if ( menu == null )
+				{
+					menu = new TeamMenu( cl );
+					menu.Enable();
+				}
+			}
+
+		}
+		
 		if ( Input.ActiveChild != null )
 		{
 			ActiveChild = Input.ActiveChild;

@@ -1,22 +1,37 @@
 ﻿using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace strife.ui
 {
-
-	class TeamMenu : Panel
+	public class TeamMenu : HudEntity<RootPanel>
 	{
-		public TeamMenu()
+		public TeamMenu(Client client)
 		{
-			//StyleSheet.Load( "/styles/_teamselectionmenu.scss" );
-			//Add.Panel( "menu" );
+			RootPanel.StyleSheet.Load( @"ui\TeamMenu.scss" );
+   
+			Panel buttonPanel = RootPanel.AddChild<Panel>( "buttons" );
+
+			Label label = RootPanel.AddChild<Label>( "select-team-label" );
+
+			label.Text = "Select a Team";
+
+			buttonPanel.AddChild( new TeamMenuButton( Team.Red, client ) );
+			buttonPanel.AddChild( new TeamMenuButton( Team.Green, client ) );
+			buttonPanel.AddChild( new TeamMenuButton( Team.Spectator, client ) );
 		}
 
+		public void Enable()
+		{
+			RootPanel.Style.Display = DisplayMode.Flex;
+			RootPanel.Style.PointerEvents = "all";
+			RootPanel.Style.Dirty();
+		}
+
+		public void Disable()
+		{
+			RootPanel.Style.Display = DisplayMode.None;
+			RootPanel.Style.PointerEvents = "none";
+			RootPanel.Style.Dirty();
+		}
 	}
 }
