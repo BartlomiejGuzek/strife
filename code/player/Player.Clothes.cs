@@ -16,7 +16,7 @@ partial class StrifeBasePlayer
 	{
 		//TODO This bitch doesnt want to strip old clothes on respawn
 		//dressed = false;
-		if ( dressed ) return;
+		if ( dressed ) UnDress();
 		dressed = true;
 
 		if ( true )

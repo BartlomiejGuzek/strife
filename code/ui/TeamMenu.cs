@@ -3,11 +3,16 @@ using Sandbox.UI;
 
 namespace strife.ui
 {
+	[Library]
 	public class TeamMenu : HudEntity<RootPanel>
 	{
 		public TeamMenu(Client client)
 		{
-			RootPanel.StyleSheet.Load( @"ui\TeamMenu.scss" );
+			if ( IsServer )
+			{
+				return;
+			}
+			RootPanel.StyleSheet.Load( "/styles/TeamMenu.scss" );
    
 			Panel buttonPanel = RootPanel.AddChild<Panel>( "buttons" );
 

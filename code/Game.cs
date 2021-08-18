@@ -16,6 +16,8 @@ partial class StrifeGame : Game
 {
 	[Net]
 	public Teams Teams { get; protected set; }
+
+
 	public StrifeGame()
 	{
 		//
@@ -55,13 +57,13 @@ partial class StrifeGame : Game
 		RemovePlayerFromTeam( cl );
 		base.ClientDisconnect( cl, reason );
 	}
-	public static void AssignPlayerToTeam( Client client, Team teamName )
+	public static bool AssignPlayerToTeam( Client client, Team teamName )
 	{
 		if ( client == null || Current is not StrifeGame strifeGame )
 		{
-			return;
+			return false;
 		}
-		strifeGame.Teams.AssignPlayer( client, teamName );
+		return strifeGame.Teams.AssignPlayer( client, teamName );
 	}
 	public static void RemovePlayerFromTeam( Client client )
 	{
@@ -79,5 +81,6 @@ partial class StrifeGame : Game
 		}
 		return strifeGame.Teams.GetPlayerTeam( client );
 	}
+
 
 }

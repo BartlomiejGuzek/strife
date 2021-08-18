@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using strife;
 using strife.player;
+using strife.ui;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -11,6 +12,8 @@ partial class StrifeBasePlayer : Player
 	
 	TimeSince timeSinceDropped;
 	DamageInfo LastDamage;
+	private TeamMenu menu { get; set; }
+
 	public static bool Debug { get; set; } = true;
 	public virtual int MaxHealth => 100;
 	public bool SupressPickupNotices { get; private set; }
@@ -72,12 +75,10 @@ partial class StrifeBasePlayer : Player
 		//
 		// Input requested a weapon switch
 		//
-		if ( Input.Pressed( InputButton.Jump ) )
+		if ( Input.Pressed( InputButton.Flashlight ) )
 		{
 			if(!IsServer)
 			{
-				Log.Info( $"{ cl.Name } { "Has been called FFF" }" );
-
 				if( menu != null )
 				{
 					menu.Disable();
@@ -89,7 +90,6 @@ partial class StrifeBasePlayer : Player
 					menu.Enable();
 				}
 			}
-
 		}
 		
 		if ( Input.ActiveChild != null )

@@ -15,7 +15,7 @@ namespace strife.ui
 		{
 			if ( !IsClient )
 				return;
-			RootPanel.AddChild<TeamMenu>();
+			//RootPanel.AddChild<TeamMenu>();
 		}
 
 	}

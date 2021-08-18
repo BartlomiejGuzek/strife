@@ -11,9 +11,12 @@ namespace strife.player.classes
 	{
 		[Net, Predicted]
 		public PlayerClassData ClassData { get; set; }
-		[Net, Predicted]
+		[Net]
 		public Team CurrentTeam { get; set; }
+		[Net]
+		public string CurrentClassName { get ; set; }
 		public override int MaxHealth => ClassData != null ? ClassData.Health : base.MaxHealth;
+
 
 
 		public PlayerClass()
@@ -24,11 +27,34 @@ namespace strife.player.classes
 		public PlayerClass( string className )
 		{
 			Inventory = new StrifePlayerInventory( this );
-			ClassData = Resource.FromPath<PlayerClassData>( "data/classes/" + className + ".class" );
+			CurrentClassName = className;
+			GetCurrentClass();
 		}
-
+		public void GetCurrentClass()
+		{
+			ClassData = Resource.FromPath<PlayerClassData>( "data/classes/" + CurrentClassName + ".class" );
+		}
+		public void ChangeClass(string className )
+		{
+			CurrentClassName = className;
+		}
+		public void GetCurrentTeam(Client client)
+		{
+			CurrentTeam = StrifeGame.GetPlayerTeam(client);
+		}
+		public void ChangeTeam(Client client, Team selectedTeam)
+		{
+			if (StrifeGame.AssignPlayerToTeam( client, selectedTeam ))
+			{
+				CurrentTeam = selectedTeam;
+			}
+			
+		}
 		public override void Respawn()
 		{
+			GetCurrentClass();
+			//TODO Figure out how to change team here
+			//GetCurrentTeam();
 			base.Respawn();
 			Dress(CurrentTeam, ClassData );
 			(Controller as StrifePlayerController).DefaultSpeed = ClassData.MovementSpeed;
@@ -36,9 +62,17 @@ namespace strife.player.classes
 			(Controller as StrifePlayerController).SprintSpeed = ClassData.SprintSpeed;
 		}
 
-		public override void Simulate( Client cl )
+		public override void Simulate(Client client)
 		{
-			base.Simulate( cl );
+			base.Simulate(client);
+			if(Input.Pressed(InputButton.Attack1))
+			{
+				ChangeClass("Sniper");
+			}
+			if (Input.Pressed( InputButton.Attack2))
+			{
+				ChangeClass( "Assault" );
+			}
 			//===============DEBUG SECTION===============
 			if ( Debug )
 			{
@@ -50,19 +84,20 @@ namespace strife.player.classes
 				DebugOverlay.ScreenText( lineOffset + 3, $"        Movement Speed: {ClassData.MovementSpeed}" );
 				DebugOverlay.ScreenText( lineOffset + 4, $"        Sprint Speed: {ClassData.SprintSpeed}" );
 
-				if ( Input.Pressed( InputButton.Flashlight ) )
+				/*if(!IsServer)
 				{
-					//TODO Fix team switching from one team to another. Player needs to receive new team after switching!
-					if ( CurrentTeam == Team.Red )
-						StrifeGame.AssignPlayerToTeam( cl, Team.Green );
-					if ( CurrentTeam == Team.Green )
-						StrifeGame.AssignPlayerToTeam( cl, Team.Red );
-
-				}
+					if ( Input.Pressed( InputButton.Flashlight ) )
+					{
+						//TODO Fix team switching from one team to another. Player needs to receive new team after switching!
+						if ( CurrentTeam == Team.Red )
+							ChangeTeam( client, Team.Green );
+						if ( CurrentTeam == Team.Green )
+							ChangeTeam( client, Team.Red );
+					}
+				}*/
+				
 			}
 			//===============DEBUG SECTION===============
-			
-			
 		}
 	}
 }

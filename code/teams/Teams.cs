@@ -20,7 +20,8 @@ namespace strife
 		}
 		public bool AssignPlayer(Client client, Team teamName)
 		{
-			if( PlayerTeams[client.NetworkIdent - 1] != Team.Spectator)
+			//TODO Check for team count. This will always return 'true' no matter what. We should check for few things here
+			if( GetPlayerTeam(client) != Team.Spectator)
 			{
 				RemovePlayer( client );
 			}
@@ -38,7 +39,7 @@ namespace strife
 			Log.Info( $"{ client.Name } { "Has been removed from " + currentTeam + " team" }" );
 			return true;
 		}
-		public Team GetPlayerTeam( Client client )
+		public Team GetPlayerTeam(Client client)
 		{
 			return PlayerTeams[client.NetworkIdent - 1];
 		}
