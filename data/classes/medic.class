@@ -2,7 +2,7 @@
 {
 	data = 
 	{
-		Name = "Medic"
+		ClassName = "Medic"
 		Health = 100
 		MovementSpeed = 200.0
 		Hat = "models/citizen_clothes/hat/hat_service.vmdl"

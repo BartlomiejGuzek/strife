@@ -1,0 +1,6 @@
+@BaseClass = ability : "Ability atributes"
+[
+  AbilityName(string) : "Name" : "Ability name"
+  Cooldown(int) : "Cooldown" : "60"
+  IsActive(bool) : "Is active" : "true"
+]

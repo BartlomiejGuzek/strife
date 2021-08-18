@@ -10,7 +10,7 @@ namespace strife.player.classes
 	[Library( "class" )]
 	class PlayerClassData : Asset
 	{
-		public new string Name { get; set; } = "Class name";
+		public new string ClassName { get; set; } = "Class name";
 		public int Health { get; set; } = 100;
 		public float MovementSpeed { get; set; } = 200;
 		public float SprintSpeed { get; set; } = 200;

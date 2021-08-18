@@ -16,8 +16,7 @@ namespace strife.player.classes
 		[Net]
 		public string CurrentClassName { get ; set; }
 		public override int MaxHealth => ClassData != null ? ClassData.Health : base.MaxHealth;
-
-
+		//public Ability MyProperty { get; set; }
 
 		public PlayerClass()
 		{
@@ -50,6 +49,10 @@ namespace strife.player.classes
 			}
 			
 		}
+		public void UseAbility()
+		{
+
+		}
 		public override void Respawn()
 		{
 			GetCurrentClass();
@@ -60,8 +63,8 @@ namespace strife.player.classes
 			(Controller as StrifePlayerController).DefaultSpeed = ClassData.MovementSpeed;
 			Health = ClassData.Health;
 			(Controller as StrifePlayerController).SprintSpeed = ClassData.SprintSpeed;
-		}
 
+		}
 		public override void Simulate(Client client)
 		{
 			base.Simulate(client);
@@ -79,7 +82,7 @@ namespace strife.player.classes
 				var lineOffset = 0;
 				//if ( Host.IsServer ) lineOffset = 10;
 				DebugOverlay.ScreenText( lineOffset + 0, $"        Team name: {CurrentTeam}" );
-			    DebugOverlay.ScreenText( lineOffset + 1, $"        Class: {ClassData.Name}" );
+			    DebugOverlay.ScreenText( lineOffset + 1, $"        Class: {ClassData.ClassName}" );
 				DebugOverlay.ScreenText( lineOffset + 2, $"        Health: {ClassData.Health}" );
 				DebugOverlay.ScreenText( lineOffset + 3, $"        Movement Speed: {ClassData.MovementSpeed}" );
 				DebugOverlay.ScreenText( lineOffset + 4, $"        Sprint Speed: {ClassData.SprintSpeed}" );

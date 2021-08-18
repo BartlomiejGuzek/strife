@@ -2,10 +2,10 @@
 {
 	data = 
 	{
-		Name = "Assault"
+		ClassName = "Assault"
 		Health = 200
 		MovementSpeed = 150.0
-		Hat = "models/citizen_clothes/hat/hat_securityhelmetnostrap.vmdl"
+		Hat = "models/m1_helmet.vmdl"
 		SprintSpeed = 200.0
 	}
 }

@@ -1,6 +1,6 @@
-@BaseClass = class : "A weapon"
+@BaseClass = class : "Player class atributes"
 [
-  Name(string) : "Name" : "Class name"
+  ClassName(string) : "Name" : "Class name"
   Health(int) : "Health" : "100"
   MovementSpeed(float) : "Movement speed" : "200"
   SprintSpeed(float) : "Sprint speed" : "300"

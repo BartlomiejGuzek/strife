@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using strife;
 using strife.player;
+using strife.player.abilities;
 using strife.ui;
 using System;
 using System.Linq;
@@ -42,6 +43,8 @@ partial class StrifeBasePlayer : Player
 		Inventory.Add( new Shotgun() );
 		Inventory.Add( new SMG() );
 		Inventory.Add( new Crossbow() );
+		Inventory.Add( new SniperActive() );
+
 
 		GiveAmmo( AmmoType.Pistol, 100 );
 		GiveAmmo( AmmoType.Buckshot, 8 );
