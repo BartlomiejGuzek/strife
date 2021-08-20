@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace strife.player.abilities
 {
-	class BaseAbility : Entity
+	abstract class BaseAbility : Entity
 	{
-		public string AbilityName { get; set; }
-		public short Cooldown { get; set; }
-		public bool IsActive { get; set; }
+		abstract public string AbilityName { get; set; }
+		abstract public short Cooldown { get; set; }
+		abstract public bool IsActive { get; set; }
+
+		abstract public void Fire();
 	}
 }

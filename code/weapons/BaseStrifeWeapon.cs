@@ -29,7 +29,6 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 	[Net, Predicted]
 	public TimeSince TimeSinceDeployed { get; set; }
 
-
 	public PickupTrigger PickupTrigger { get; protected set; }
 
 
@@ -219,6 +218,22 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 				}
 			}
 		}
+	}
+
+	public virtual void ShootRocket( float spread, float force, float damage, float bulletSize )
+	{
+		var forward = Owner.EyeRot.Forward;
+		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.15f;
+		forward = forward.Normal;
+
+		var ent = new Prop
+		{
+			Position = Owner.EyePos + Owner.EyeRot.Forward * 50,
+			Rotation = Owner.EyeRot
+		};
+
+		ent.SetModel( "models/citizen_props/crate01.vmdl" );
+		ent.Velocity = Owner.EyeRot.Forward * 1000;
 	}
 
 	public bool TakeAmmo( int amount )

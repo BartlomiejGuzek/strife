@@ -4,5 +4,6 @@
   Health(int) : "Health" : "100"
   MovementSpeed(float) : "Movement speed" : "200"
   SprintSpeed(float) : "Sprint speed" : "300"
+  AbilityCooldown(float) : "Ability cooldown" : "20"
   Hat(string) : "Hat model" : ""
 ]

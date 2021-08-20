@@ -3,6 +3,7 @@ using strife;
 using strife.player;
 using strife.player.abilities;
 using strife.ui;
+using strife.weapons;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -16,7 +17,6 @@ partial class StrifeBasePlayer : Player
 	private TeamMenu menu { get; set; }
 
 	public static bool Debug { get; set; } = true;
-	public virtual int MaxHealth => 100;
 	public bool SupressPickupNotices { get; private set; }
 
 	public StrifeBasePlayer()
@@ -43,6 +43,7 @@ partial class StrifeBasePlayer : Player
 		Inventory.Add( new Shotgun() );
 		Inventory.Add( new SMG() );
 		Inventory.Add( new Crossbow() );
+		Inventory.Add( new RocketLauncher() );
 		Inventory.Add( new SniperActive() );
 
 

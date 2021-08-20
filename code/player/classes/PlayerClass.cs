@@ -1,4 +1,5 @@
 ﻿using Sandbox;
+using strife.player.abilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,18 @@ namespace strife.player.classes
 {
 	partial class PlayerClass : StrifeBasePlayer
 	{
-		[Net, Predicted]
+		[Net]
 		public PlayerClassData ClassData { get; set; }
 		[Net]
 		public Team CurrentTeam { get; set; }
+		public TimeSince TimeSinceAbilityUsed { get; set; }
+		public short AbilityCooldown { get; set; }
 		[Net]
 		public string CurrentClassName { get ; set; }
-		public override int MaxHealth => ClassData != null ? ClassData.Health : base.MaxHealth;
-		//public Ability MyProperty { get; set; }
-
+		[Net]
+		public SniperActive ActiveAbility { get; set; }
+		
+		
 		public PlayerClass()
 		{
 			Inventory = new StrifePlayerInventory( this );
@@ -27,9 +31,9 @@ namespace strife.player.classes
 		{
 			Inventory = new StrifePlayerInventory( this );
 			CurrentClassName = className;
-			GetCurrentClass();
+			GetClassData();
 		}
-		public void GetCurrentClass()
+		public void GetClassData()
 		{
 			ClassData = Resource.FromPath<PlayerClassData>( "data/classes/" + CurrentClassName + ".class" );
 		}
@@ -51,11 +55,19 @@ namespace strife.player.classes
 		}
 		public void UseAbility()
 		{
-
+			if(TimeSinceAbilityUsed >= AbilityCooldown)
+			{
+				TimeSinceAbilityUsed = 0;
+				ActiveAbility.Fire();
+			}
 		}
 		public override void Respawn()
 		{
-			GetCurrentClass();
+			GetClassData();
+			if(CurrentClassName == "Sniper")
+			{
+				ActiveAbility = new SniperActive();
+			}
 			//TODO Figure out how to change team here
 			//GetCurrentTeam();
 			base.Respawn();
@@ -63,19 +75,12 @@ namespace strife.player.classes
 			(Controller as StrifePlayerController).DefaultSpeed = ClassData.MovementSpeed;
 			Health = ClassData.Health;
 			(Controller as StrifePlayerController).SprintSpeed = ClassData.SprintSpeed;
-
+			AbilityCooldown = ClassData.AbilityCooldown;
 		}
 		public override void Simulate(Client client)
 		{
 			base.Simulate(client);
-			if(Input.Pressed(InputButton.Attack1))
-			{
-				ChangeClass("Sniper");
-			}
-			if (Input.Pressed( InputButton.Attack2))
-			{
-				ChangeClass( "Assault" );
-			}
+			
 			//===============DEBUG SECTION===============
 			if ( Debug )
 			{
@@ -86,6 +91,7 @@ namespace strife.player.classes
 				DebugOverlay.ScreenText( lineOffset + 2, $"        Health: {ClassData.Health}" );
 				DebugOverlay.ScreenText( lineOffset + 3, $"        Movement Speed: {ClassData.MovementSpeed}" );
 				DebugOverlay.ScreenText( lineOffset + 4, $"        Sprint Speed: {ClassData.SprintSpeed}" );
+				DebugOverlay.ScreenText( lineOffset + 5, $"        Sprint Speed: {ClassData.AbilityCooldown}" );
 
 				/*if(!IsServer)
 				{
@@ -98,7 +104,7 @@ namespace strife.player.classes
 							ChangeTeam( client, Team.Red );
 					}
 				}*/
-				
+
 			}
 			//===============DEBUG SECTION===============
 		}

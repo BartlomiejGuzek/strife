@@ -6,10 +6,9 @@
 partial class Pistol : BaseStrifeWeapon
 { 
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
-
 	public override float PrimaryRate => 15.0f;
 	public override float SecondaryRate => 1.0f;
-	public override float ReloadTime => 3.0f;
+	public override float ReloadTime => 1.2f;
 
 	public override int Bucket => 1;
 
@@ -29,8 +28,7 @@ partial class Pistol : BaseStrifeWeapon
 	public override void AttackPrimary()
 	{
 		base.AttackPrimary();
-		TimeSincePrimaryAttack = 0;
-		TimeSinceSecondaryAttack = 0;
+
 
 		if ( !TakeAmmo( 1 ) )
 		{
@@ -42,7 +40,7 @@ partial class Pistol : BaseStrifeWeapon
 		//
 		// Tell the clients to play the shoot effects
 		//
-		ShootEffects();
+		//ShootEffects();
 		PlaySound( "rust_pistol.shoot" );
 
 		//

@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace strife.player.abilities
 {
-	class SniperActive : BaseAbility
+	class SnipePassive : BaseAbility
 	{
+		public override string AbilityName { get; set; }
+		public override short Cooldown { get; set; }
+		public override bool IsActive { get; set; }
 
+		public override void Fire()
+		{
+	
+		}
 	}
 }

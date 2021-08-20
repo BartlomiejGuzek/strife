@@ -14,6 +14,7 @@ namespace strife.player.classes
 		public int Health { get; set; } = 100;
 		public float MovementSpeed { get; set; } = 200;
 		public float SprintSpeed { get; set; } = 200;
+		public short AbilityCooldown { get; set; } = 20;
 		public string Hat { get; set; } = "";
 		//TODO abilities
 	}
