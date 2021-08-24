@@ -9,9 +9,36 @@
 *.user
 *.userosscache
 *.sln.docstates
+
+# SBOX related
 *.csproj
 tools_asset_info.bin
 tools_thumbnail_cache.bin
+_bakeresourcecache/
+code/Properties/
+code/obj/
+.codegen/
+.intermediate
+materials/default/*
+accesslist.txt
+tools_asset_info.bin
+omnisharp.json
+
+*_bakeresourcecache.vpk
+*.csproj
+*.bat
+*.los
+*.py
+*.rar
+*.vanmgrph_c
+*.vmat_c
+*.vmdl_c
+*.vp
+*.vsnd_c
+*.vtex_c
+*.zip
+*.vpk
+*.vpcf_c
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
