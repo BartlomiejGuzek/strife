@@ -30,10 +30,9 @@ namespace strife
 		{
 			//TODO Check for team count. This will always return 'true' no matter what. We should check for few things here
 			TeamPlayerCount[teamName] += 1;
-			if ( GetPlayerTeam(client) != Team.Spectator)
-			{
-				RemovePlayer( client );
-			}
+
+			RemovePlayer( client );
+
 			PlayerTeams[client.NetworkIdent - 1] = teamName;
 			if ( !Host.IsServer )
 			{

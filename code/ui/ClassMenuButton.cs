@@ -9,23 +9,23 @@ using System.Threading.Tasks;
 
 namespace strife.ui
 {
-	public class TeamMenuButton : Button
+	public class ClassMenuButton : Button
 	{
-		protected Team team;
 		protected Color notHoveredColor_;
 		protected Color hoveredColor_;
 		protected Label playerCount_;
-		public delegate void ButtonClicked( Team team );
+		public delegate void ButtonClicked( string className );
 		protected ButtonClicked clickEvent;
+		public string className;
 
-		public TeamMenuButton( Team team, ButtonClicked clickEvent )
+		public ClassMenuButton( string className, ButtonClicked clickEvent )
 		{
-			this.team = team;
 			this.clickEvent = clickEvent;
+			this.className = className;
 
 			notHoveredColor_.a = 0.9f;
 
-			string buttonLabelText = $"Join {team.ToString()} Team";
+			string buttonLabelText = $"{className}";
 
 			hoveredColor_ = new Color(
 				notHoveredColor_.r + 0.1f,
@@ -33,7 +33,6 @@ namespace strife.ui
 				notHoveredColor_.b + 0.1f,
 				0.9f );
 
-			playerCount_ = Add.Label( "", "player-count" );
 			Add.Label( buttonLabelText, "label" );
 		}
 
@@ -50,16 +49,12 @@ namespace strife.ui
 				Style.BackgroundColor = notHoveredColor_;
 			}
 
-			if ( team > 0 )
-			{
-				playerCount_.Text = Teams.GetTeamPlayerCount( team ) + " players";
-			}
 		}
 
 		protected override void OnClick( MousePanelEvent e )
 		{
 			base.OnClick( e );
-			clickEvent( team );
+			clickEvent( className );
 		}
 	}
 }

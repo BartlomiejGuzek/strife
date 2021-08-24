@@ -27,6 +27,7 @@ partial class StrifeBasePlayer : Player
 	TimeSince timeSinceDropped;
 	DamageInfo LastDamage;
 	public TeamMenu teamMenu { get; set; }
+	public ClassMenu classMenu { get; set; }
 	public static bool Debug { get; set; } = true;
 	public bool SupressPickupNotices { get; private set; }
 
@@ -121,7 +122,23 @@ partial class StrifeBasePlayer : Player
 				}
 			}
 		}
-		
+		if ( Input.Pressed( InputButton.Drop ) )
+		{
+			if ( !IsServer )
+			{
+				this.classMenu ??= new ClassMenu( cl );
+				if ( this.classMenu.IsVisible )
+				{
+					this.classMenu.Disable();
+				}
+				else
+				{
+					this.classMenu.Enable();
+				}
+			}
+		}
+
+
 		if ( Input.ActiveChild != null )
 		{
 			ActiveChild = Input.ActiveChild;

@@ -74,6 +74,27 @@ partial class StrifeGame : Game
 		}
 		strifeGame.Teams.RemovePlayer( client );
 	}
+
+	public static bool AssignPlayerToClass( Client client, string className )
+	{
+		if ( client == null || Current is not StrifeGame strifeGame )
+		{
+			return false;
+		}
+		var player = new SniperClass(); //(StrifeBasePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
+		player.CurrentTeam = GetPlayerTeam( client );
+		player.Respawn();
+		client.Pawn = player;
+		return true;
+	}
+	//public static void RemovePlayerFromClass( Client client )
+	//{
+	//	if ( client == null || Current is not StrifeGame strifeGame )
+	//	{
+	//		return;
+	//	}
+	//	strifeGame.Teams.RemovePlayer( client );
+	//}
 	public static Team GetPlayerTeam(Client client )
 	{
 		if ( client == null || Current is not StrifeGame strifeGame )
