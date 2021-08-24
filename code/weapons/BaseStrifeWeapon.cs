@@ -16,29 +16,21 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 	public virtual float ReloadTime => 3.0f;
 	public virtual int Bucket => 1;
 	public virtual int BucketWeight => 100;
-
 	[Net, Predicted]
 	public int AmmoClip { get; set; }
-
 	[Net, Predicted]
 	public TimeSince TimeSinceReload { get; set; }
-
 	[Net, Predicted]
 	public bool IsReloading { get; set; }
-
 	[Net, Predicted]
 	public TimeSince TimeSinceDeployed { get; set; }
-
 	public PickupTrigger PickupTrigger { get; protected set; }
-
-
 	public int AvailableAmmo()
 	{
 		var owner = Owner as StrifeBasePlayer;
 		if ( owner == null ) return 0;
 		return owner.AmmoCount( AmmoType );
 	}
-
 	public override void ActiveStart( Entity ent )
 	{
 		base.ActiveStart( ent );
@@ -47,9 +39,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 
 		IsReloading = false;
 	}
-
 	public override string ViewModelPath => "weapons/rust_pistol/v_rust_pistol.vmdl";
-
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -60,7 +50,6 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 		PickupTrigger.Parent = this;
 		PickupTrigger.Position = Position;
 	}
-
 	public override void Reload()
 	{
 		if ( IsReloading )
@@ -83,7 +72,6 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 
 		StartReloadEffects();
 	}
-
 	public override void Simulate( Client owner ) 
 	{
 		if ( TimeSinceDeployed < 0.6f )
@@ -99,7 +87,6 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 			OnReloadFinish();
 		}
 	}
-
 	public virtual void OnReloadFinish()
 	{
 		IsReloading = false;
@@ -113,7 +100,6 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 			AmmoClip += ammo;
 		}
 	}
-
 	[ClientRpc]
 	public virtual void StartReloadEffects()
 	{
@@ -152,9 +138,9 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
-				if ( tr.Entity is PlayerClass Player )
+				if ( tr.Entity is StrifeBasePlayer Player )
 				{
-					if ( Player.CurrentTeam != (damage.Attacker as PlayerClass).CurrentTeam )
+					if ( Player.CurrentTeam != (damage.Attacker as StrifeBasePlayer).CurrentTeam )
 					{
 						tr.Entity.TakeDamage( damage );
 					}
@@ -187,7 +173,6 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 		var forward = Owner.EyeRot.Forward;
 		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.25f;
 		forward = forward.Normal;
-
 		//
 		// ShootBullet is coded in a way where we can have bullets pass through shit
 		// or bounce off shit, in which case it'll return multiple results
@@ -209,9 +194,9 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 					.WithAttacker( Owner )
 					.WithWeapon( this );
 
-				if ( tr.Entity is PlayerClass Player )
+				if ( tr.Entity is StrifeBasePlayer Player )
 				{
-					if ( Player.CurrentTeam != (damageInfo.Attacker as PlayerClass).CurrentTeam )
+					if ( Player.CurrentTeam != (damageInfo.Attacker as StrifeBasePlayer).CurrentTeam )
 					{
 						tr.Entity.TakeDamage( damageInfo );
 					}
@@ -222,18 +207,23 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 
 	public virtual void ShootRocket( float spread, float force, float damage, float bulletSize )
 	{
-		var forward = Owner.EyeRot.Forward;
-		forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.15f;
-		forward = forward.Normal;
-
-		var ent = new Prop
+		if ( !IsServer )
 		{
-			Position = Owner.EyePos + Owner.EyeRot.Forward * 50,
-			Rotation = Owner.EyeRot
-		};
+			var forward = Owner.EyeRot.Forward;
+			forward += (Vector3.Random + Vector3.Random + Vector3.Random + Vector3.Random) * spread * 0.15f;
+			forward = forward.Normal;
 
-		ent.SetModel( "models/citizen_props/crate01.vmdl" );
-		ent.Velocity = Owner.EyeRot.Forward * 1000;
+			var rocket = new Prop
+			{
+				
+				Position = Owner.EyePos + Owner.EyeRot.Forward * 50,
+				Rotation = Owner.EyeRot
+			};
+
+			rocket.SetModel( "models/light_arrow.vmdl" );
+			rocket.Velocity = Owner.EyeRot.Forward * 10;
+		}
+
 	}
 
 	public bool TakeAmmo( int amount )

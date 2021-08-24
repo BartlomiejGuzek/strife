@@ -2,6 +2,7 @@
 using strife;
 using strife.player;
 using strife.player.abilities;
+using strife.player.classes;
 using strife.ui;
 using strife.weapons;
 using System;
@@ -11,23 +12,34 @@ using System.Threading;
 
 partial class StrifeBasePlayer : Player
 {
-	
+	public string CurrentClassName { get; set; } = "Class name";
+	[Net]
+	public new float Health { get; set; } = 100;
+	virtual public float MovementSpeed { get; set; } = 200;
+	virtual public float SprintSpeed { get; set; } = 200;
+	public string Hat { get; set; } = "models/citizen_clothes/hat/hat_woolly.vmdl";
+	[Net]
+	public Team CurrentTeam { get; set; }
+	[Net]
+	public TimeSince TimeSinceAbilityUsed { get; set; }
+	[Net]
+	public short AbilityCooldown { get; set; } = 20;
 	TimeSince timeSinceDropped;
 	DamageInfo LastDamage;
 	private TeamMenu menu { get; set; }
-
 	public static bool Debug { get; set; } = true;
 	public bool SupressPickupNotices { get; private set; }
 
 	public StrifeBasePlayer()
 	{
-		Inventory = new StrifePlayerInventory( this );
 	}
 
 	public override void Respawn()
 	{
+		//TODO Figure out how to change team here
+		//GetCurrentTeam();
+		Dress( CurrentTeam, Hat );
 		SetModel( "models/citizen/citizen.vmdl" );
-
 		Controller = new StrifePlayerController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new ThirdPersonCamera();
@@ -39,18 +51,6 @@ partial class StrifeBasePlayer : Player
 
 		ClearAmmo();
 		SupressPickupNotices = true;
-		Inventory.Add( new Pistol(), true );
-		Inventory.Add( new Shotgun() );
-		Inventory.Add( new SMG() );
-		Inventory.Add( new Crossbow() );
-		Inventory.Add( new RocketLauncher() );
-		Inventory.Add( new SniperActive() );
-
-
-		GiveAmmo( AmmoType.Pistol, 100 );
-		GiveAmmo( AmmoType.Buckshot, 8 );
-		GiveAmmo( AmmoType.Crossbow, 4 );
-
 		SupressPickupNotices = false;
 		Health = 100;
 		base.Respawn();
@@ -75,7 +75,32 @@ partial class StrifeBasePlayer : Player
 		//if ( cl.NetworkIdent == 1 )
 		//	return;
 		base.Simulate( cl );
+		//===============DEBUG SECTION===============
+		if ( Debug )
+		{
+			var lineOffset = 0;
+			//if ( Host.IsServer ) lineOffset = 10;
+			DebugOverlay.ScreenText( lineOffset + 0, $"        Team name: {CurrentTeam}" );
+			DebugOverlay.ScreenText( lineOffset + 1, $"        Class: {CurrentClassName}" );
+			DebugOverlay.ScreenText( lineOffset + 2, $"        Health: {Health}" );
+			DebugOverlay.ScreenText( lineOffset + 3, $"        Movement Speed: {MovementSpeed}" );
+			DebugOverlay.ScreenText( lineOffset + 4, $"        Sprint Speed: {SprintSpeed}" );
+			DebugOverlay.ScreenText( lineOffset + 5, $"        Sprint Speed: {AbilityCooldown}" );
 
+			/*if(!IsServer)
+			{
+				if ( Input.Pressed( InputButton.Flashlight ) )
+				{
+					//TODO Fix team switching from one team to another. Player needs to receive new team after switching!
+					if ( CurrentTeam == Team.Red )
+						ChangeTeam( client, Team.Green );
+					if ( CurrentTeam == Team.Green )
+						ChangeTeam( client, Team.Red );
+				}
+			}*/
+
+		}
+		//===============DEBUG SECTION===============
 		//
 		// Input requested a weapon switch
 		//
@@ -156,5 +181,29 @@ partial class StrifeBasePlayer : Player
 		}
 		else
 			Health += healAmount;
+	}
+	public void ChangeClass( string className )
+	{
+		CurrentClassName = className;
+	}
+	public void GetCurrentTeam( Client client )
+	{
+		CurrentTeam = StrifeGame.GetPlayerTeam( client );
+	}
+	public void ChangeTeam( Client client, Team selectedTeam )
+	{
+		if ( StrifeGame.AssignPlayerToTeam( client, selectedTeam ) )
+		{
+			CurrentTeam = selectedTeam;
+		}
+
+	}
+	public void UseAbility()
+	{
+		if ( TimeSinceAbilityUsed >= AbilityCooldown )
+		{
+			TimeSinceAbilityUsed = 0;
+			//Fire ability
+		}
 	}
 }
