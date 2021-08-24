@@ -43,14 +43,15 @@ partial class StrifeGame : Game
 	{
 		//TODO Get class from selection menu
 		var teamNumer = Rand.Int( 1, 2 );
-		AssignPlayerToTeam( cl, (Team)teamNumer );
+
+		//var teamMenu = new TeamMenu( cl );
+		//teamMenu.Enable();
 		var player = new SniperClass();
 		player.CurrentTeam = GetPlayerTeam(cl);
-		//new TeamSelectionMenu();
-		//TODO Get teamName from TeamSelectionMenu
 		player.Respawn();
 		cl.Pawn = player;
 		base.ClientJoined( cl );
+
 	}
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{

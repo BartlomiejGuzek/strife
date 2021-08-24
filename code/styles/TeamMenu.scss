@@ -24,6 +24,7 @@
 }
 
 TeamMenuButton {
+    cursor: pointer;
     position: relative;
     margin: 0px 5px;
     width: 400px;
@@ -33,7 +34,7 @@ TeamMenuButton {
     justify-content: center;
     transition: all 0.1s ease-in-out;
     pointer-events: all;
-
+    transform-origin: left;
 
     .label {
         font-size: 30px;
@@ -56,3 +57,9 @@ TeamMenuButton {
         text-shadow: 0px 2px 3px black;
     }
 }
+
+TeamMenuButton:hover {
+    transform: perspective(1200px) rotateY(40deg);
+    transition: .45s;
+}
+

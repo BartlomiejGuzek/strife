@@ -12,37 +12,22 @@ namespace strife.ui
 	public class TeamMenuButton : Button
 	{
 		protected Team team;
-		private Client client;
 		protected Color notHoveredColor_;
 		protected Color hoveredColor_;
-
 		protected Label playerCount_;
+		public delegate void ButtonClicked( Team team );
+		protected ButtonClicked clickEvent;
 
-		public TeamMenuButton( Team team, Client client )
+		public TeamMenuButton( Team team, ButtonClicked clickEvent )
 		{
 			this.team = team;
-			this.client = client;
+			this.clickEvent = clickEvent;
 
 			//notHoveredColor_ = Teams.GetDarkTeamColor( team );
 
 			notHoveredColor_.a = 0.9f;
 
-			string buttonLabelText = "";
-
-			switch ( team )
-			{
-				case Team.Spectator:
-					buttonLabelText = "Spectate";
-					break;
-
-				case Team.Red:
-					buttonLabelText = "Join Red Team";
-					break;
-
-				case Team.Green:
-					buttonLabelText = "Join Green Team";
-					break;
-			}
+			string buttonLabelText = $"Join {team.ToString()} Team";
 
 			hoveredColor_ = new Color(
 				notHoveredColor_.r + 0.1f,
@@ -69,15 +54,14 @@ namespace strife.ui
 
 			if ( team > 0 )
 			{
-				//playerCount_.Text = Teams.GetTeamPlayerCount( team_ ) + " players";
+				playerCount_.Text = Teams.GetTeamPlayerCount( team ) + " players";
 			}
 		}
 
 		protected override void OnClick( MousePanelEvent e )
 		{
 			base.OnClick( e );
-
-			StrifeGame.AssignPlayerToTeam( client, team );
+			clickEvent( team );
 		}
 	}
 }

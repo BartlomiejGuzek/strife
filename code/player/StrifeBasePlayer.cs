@@ -26,7 +26,7 @@ partial class StrifeBasePlayer : Player
 	public short AbilityCooldown { get; set; } = 20;
 	TimeSince timeSinceDropped;
 	DamageInfo LastDamage;
-	private TeamMenu menu { get; set; }
+	public TeamMenu teamMenu { get; set; }
 	public static bool Debug { get; set; } = true;
 	public bool SupressPickupNotices { get; private set; }
 
@@ -74,6 +74,8 @@ partial class StrifeBasePlayer : Player
 	{
 		//if ( cl.NetworkIdent == 1 )
 		//	return;
+
+
 		base.Simulate( cl );
 		//===============DEBUG SECTION===============
 		if ( Debug )
@@ -108,15 +110,14 @@ partial class StrifeBasePlayer : Player
 		{
 			if(!IsServer)
 			{
-				if( menu != null )
+				this.teamMenu ??= new TeamMenu( cl );
+				if ( this.teamMenu.IsVisible )
 				{
-					menu.Disable();
-					menu = null;
+					this.teamMenu.Disable();
 				}
-				else if ( menu == null )
+				else
 				{
-					menu = new TeamMenu( cl );
-					menu.Enable();
+					this.teamMenu.Enable();
 				}
 			}
 		}
