@@ -28,14 +28,11 @@ partial class Pistol : BaseStrifeWeapon
 	public override void AttackPrimary()
 	{
 		base.AttackPrimary();
-
-
 		if ( !TakeAmmo( 1 ) )
 		{
 			DryFire();
 			return;
 		}
-
 
 		//
 		// Tell the clients to play the shoot effects

@@ -11,7 +11,7 @@ namespace strife.weapons
 	[Hammer.EditorModel( "weapons/rust_crossbow/rust_crossbow.vmdl" )]
 	partial class RocketLauncher : BaseStrifeWeapon
 	{
-		public override float PrimaryRate => 50.0f;
+		public override float PrimaryRate => 1.0f;
 		public override float SecondaryRate => 1.0f;
 		public override int ClipSize => 4;
 		public override float ReloadTime => 6.0f;

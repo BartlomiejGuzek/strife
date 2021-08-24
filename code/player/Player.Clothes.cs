@@ -12,10 +12,8 @@ partial class StrifeBasePlayer
 
 	bool dressed = false;
 
-	public void Dress(Team team, PlayerClassData playerClassData)
+	public void Dress(Team team, string hatPath)
 	{
-		//TODO This bitch doesnt want to strip old clothes on respawn
-		//dressed = false;
 		if ( dressed ) UnDress();
 		dressed = true;
 
@@ -74,7 +72,7 @@ partial class StrifeBasePlayer
 
 		if ( true )
 		{
-			var model = playerClassData.Hat;
+			var model = hatPath;
 
 			hat = new ModelEntity();
 			hat.SetModel( model );
