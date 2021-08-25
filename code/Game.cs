@@ -44,7 +44,7 @@ partial class StrifeGame : Game
 		//TODO Get class from selection menu
 		var teamNumer = Rand.Int( 1, 2 );
 		AssignPlayerToTeam( cl, (Team)teamNumer );
-		var player = new SniperClass();
+		var player = new SpyClass();
 		player.CurrentTeam = GetPlayerTeam(cl);
 		//new TeamSelectionMenu();
 		//TODO Get teamName from TeamSelectionMenu

@@ -38,8 +38,8 @@ partial class StrifeBasePlayer : Player
 	{
 		//TODO Figure out how to change team here
 		//GetCurrentTeam();
-		Dress( CurrentTeam, Hat );
 		SetModel( "models/citizen/citizen.vmdl" );
+		Dress( CurrentTeam, Hat );
 		Controller = new StrifePlayerController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new ThirdPersonCamera();
