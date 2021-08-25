@@ -1,13 +1,19 @@
 ﻿using Sandbox;
 using Sandbox.UI;
+using System;
 
 namespace strife.ui
 {
 	[Library]
 	public class TeamMenu : HudEntity<RootPanel>
 	{
+		private Client client;
+
+		public bool IsVisible { get; private set; }
 		public TeamMenu(Client client)
 		{
+			this.client = client;
+			IsVisible = false;
 			if ( IsServer )
 			{
 				return;
@@ -20,9 +26,11 @@ namespace strife.ui
 
 			label.Text = "Select a Team";
 
-			buttonPanel.AddChild( new TeamMenuButton( Team.Red, client ) );
-			buttonPanel.AddChild( new TeamMenuButton( Team.Green, client ) );
-			buttonPanel.AddChild( new TeamMenuButton( Team.Spectator, client ) );
+			foreach ( Team team in Enum.GetValues( typeof( Team ) ) )
+			{
+				buttonPanel.AddChild( new TeamMenuButton( team, ClickEvent ) );
+			}
+
 		}
 
 		public void Enable()
@@ -30,6 +38,7 @@ namespace strife.ui
 			RootPanel.Style.Display = DisplayMode.Flex;
 			RootPanel.Style.PointerEvents = "all";
 			RootPanel.Style.Dirty();
+			IsVisible = true;
 		}
 
 		public void Disable()
@@ -37,6 +46,14 @@ namespace strife.ui
 			RootPanel.Style.Display = DisplayMode.None;
 			RootPanel.Style.PointerEvents = "none";
 			RootPanel.Style.Dirty();
+			IsVisible = false;
 		}
+
+		public void ClickEvent( Team team )
+		{
+			StrifeGame.AssignPlayerToTeam( client, team );
+			Disable();
+		}
+		
 	}
 }

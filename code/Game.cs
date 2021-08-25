@@ -43,14 +43,15 @@ partial class StrifeGame : Game
 	{
 		//TODO Get class from selection menu
 		var teamNumer = Rand.Int( 1, 2 );
-		AssignPlayerToTeam( cl, (Team)teamNumer );
-		var player = new SpyClass();
+
+		//var teamMenu = new TeamMenu( cl );
+		//teamMenu.Enable();
+		var player = new SniperClass();
 		player.CurrentTeam = GetPlayerTeam(cl);
-		//new TeamSelectionMenu();
-		//TODO Get teamName from TeamSelectionMenu
 		player.Respawn();
 		cl.Pawn = player;
 		base.ClientJoined( cl );
+
 	}
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
@@ -73,6 +74,27 @@ partial class StrifeGame : Game
 		}
 		strifeGame.Teams.RemovePlayer( client );
 	}
+
+	public static bool AssignPlayerToClass( Client client, string className )
+	{
+		if ( client == null || Current is not StrifeGame strifeGame )
+		{
+			return false;
+		}
+		var player = new SniperClass(); //(StrifeBasePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
+		player.CurrentTeam = GetPlayerTeam( client );
+		player.Respawn();
+		client.Pawn = player;
+		return true;
+	}
+	//public static void RemovePlayerFromClass( Client client )
+	//{
+	//	if ( client == null || Current is not StrifeGame strifeGame )
+	//	{
+	//		return;
+	//	}
+	//	strifeGame.Teams.RemovePlayer( client );
+	//}
 	public static Team GetPlayerTeam(Client client )
 	{
 		if ( client == null || Current is not StrifeGame strifeGame )
