@@ -81,7 +81,7 @@ partial class StrifeGame : Game
 		{
 			return false;
 		}
-		var player = new SpyClass(); //(StrifeBasePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
+		var player = new SpyClass(); //(StrifePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
 		player.CurrentTeam = GetPlayerTeam( client );
 		player.Respawn();
 		client.Pawn = player;

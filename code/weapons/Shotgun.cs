@@ -124,7 +124,7 @@ partial class Shotgun : BaseStrifeWeapon
 		if ( AmmoClip >= ClipSize )
 			return;
 
-		if ( Owner is StrifeBasePlayer player )
+		if ( Owner is StrifePlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, 1 );
 			if ( ammo == 0 )

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace strife.player.classes
 {
-	partial class MedicClass : StrifeBasePlayer
+	partial class MedicClass : StrifePlayer
 	{
 		public override float MovementSpeed { get; set; } = 200;
 		public override float SprintSpeed { get; set; } = 200;
@@ -16,7 +16,6 @@ namespace strife.player.classes
 			CurrentClassName = "Medic";
 			Hat = "models/citizen_clothes/hat/hat_beret.red.vmdl";
 		}
-
 		public override void Respawn()
 		{
 			base.Respawn();

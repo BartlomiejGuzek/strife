@@ -10,7 +10,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading;
 
-partial class StrifeBasePlayer : Player
+partial class StrifePlayer : Player
 {
 	public string CurrentClassName { get; set; } = "Class name";
 	[Net]
@@ -20,10 +20,8 @@ partial class StrifeBasePlayer : Player
 	public string Hat { get; set; } = "models/citizen_clothes/hat/hat_woolly.vmdl";
 	[Net]
 	public Team CurrentTeam { get; set; }
-	[Net]
 	public TimeSince TimeSinceAbilityUsed { get; set; }
-	[Net]
-	public short AbilityCooldown { get; set; } = 20;
+	public virtual short AbilityCooldown { get; set; } = 5;
 	TimeSince timeSinceDropped;
 	DamageInfo LastDamage;
 	public TeamMenu teamMenu { get; set; }
@@ -31,7 +29,7 @@ partial class StrifeBasePlayer : Player
 	public static bool Debug { get; set; } = true;
 	public bool SupressPickupNotices { get; private set; }
 
-	public StrifeBasePlayer()
+	public StrifePlayer()
 	{
 	}
 
@@ -169,11 +167,11 @@ partial class StrifeBasePlayer : Player
 
 		base.TakeDamage( info );
 
-		if ( info.Attacker is StrifeBasePlayer attacker && attacker != this )
+		if ( info.Attacker is StrifePlayer attacker && attacker != this )
 		{
 			// Note - sending this only to the attacker!
 			attacker.DidDamage( To.Single( attacker ), info.Position, info.Damage, Health.LerpInverse( 100, 0 ) );
-
+			//TODO move team checking here so we dont have to duplicate code in weapon classes
 			TookDamage( To.Single( this ), info.Weapon.IsValid() ? info.Weapon.Position : info.Attacker.Position );
 		}
 	}
@@ -216,12 +214,12 @@ partial class StrifeBasePlayer : Player
 		}
 
 	}
-	public void UseAbility()
+	public bool CanUseAbility(TimeSince abilityCooldown )
 	{
-		if ( TimeSinceAbilityUsed >= AbilityCooldown )
+		if ( TimeSinceAbilityUsed >= abilityCooldown )
 		{
-			TimeSinceAbilityUsed = 0;
-			//Fire ability
+			return true;
 		}
+		return false;
 	}
 }

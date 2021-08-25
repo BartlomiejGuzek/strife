@@ -27,7 +27,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 	public PickupTrigger PickupTrigger { get; protected set; }
 	public int AvailableAmmo()
 	{
-		var owner = Owner as StrifeBasePlayer;
+		var owner = Owner as StrifePlayer;
 		if ( owner == null ) return 0;
 		return owner.AmmoCount( AmmoType );
 	}
@@ -60,7 +60,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 
 		TimeSinceReload = 0;
 
-		if ( Owner is StrifeBasePlayer player )
+		if ( Owner is StrifePlayer player )
 		{
 			if ( player.AmmoCount( AmmoType ) <= 0 )
 				return;
@@ -91,7 +91,7 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 	{
 		IsReloading = false;
 
-		if ( Owner is StrifeBasePlayer player )
+		if ( Owner is StrifePlayer player )
 		{
 			var ammo = player.TakeAmmo( AmmoType, ClipSize - AmmoClip );
 			if ( ammo == 0 )
@@ -138,9 +138,9 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 					.UsingTraceResult( tr )
 					.WithAttacker( Owner )
 					.WithWeapon( this );
-				if ( tr.Entity is StrifeBasePlayer Player )
+				if ( tr.Entity is StrifePlayer Player )
 				{
-					if ( Player.CurrentTeam != (damage.Attacker as StrifeBasePlayer).CurrentTeam )
+					if ( Player.CurrentTeam != (damage.Attacker as StrifePlayer).CurrentTeam )
 					{
 						tr.Entity.TakeDamage( damage );
 					}
@@ -194,9 +194,9 @@ partial class BaseStrifeWeapon : BaseWeapon, IRespawnableEntity
 					.WithAttacker( Owner )
 					.WithWeapon( this );
 
-				if ( tr.Entity is StrifeBasePlayer Player )
+				if ( tr.Entity is StrifePlayer Player )
 				{
-					if ( Player.CurrentTeam != (damageInfo.Attacker as StrifeBasePlayer).CurrentTeam )
+					if ( Player.CurrentTeam != (damageInfo.Attacker as StrifePlayer).CurrentTeam )
 					{
 						tr.Entity.TakeDamage( damageInfo );
 					}

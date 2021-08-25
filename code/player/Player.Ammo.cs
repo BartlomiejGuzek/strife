@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-partial class StrifeBasePlayer
+partial class StrifePlayer
 {
 	[Net]
 	public List<int> Ammo { get; set; } = new (); // todo - networkable dictionaries
