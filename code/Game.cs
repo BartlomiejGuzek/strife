@@ -46,7 +46,7 @@ partial class StrifeGame : Game
 
 		//var teamMenu = new TeamMenu( cl );
 		//teamMenu.Enable();
-		var player = new SniperClass();
+		var player = new SpyClass();
 		player.CurrentTeam = GetPlayerTeam(cl);
 		player.Respawn();
 		cl.Pawn = player;
@@ -81,7 +81,7 @@ partial class StrifeGame : Game
 		{
 			return false;
 		}
-		var player = new SniperClass(); //(StrifeBasePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
+		var player = new SpyClass(); //(StrifePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
 		player.CurrentTeam = GetPlayerTeam( client );
 		player.Respawn();
 		client.Pawn = player;

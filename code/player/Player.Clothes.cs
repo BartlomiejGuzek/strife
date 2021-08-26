@@ -3,7 +3,7 @@ using strife;
 using strife.player.classes;
 using System.Reflection;
 
-partial class StrifeBasePlayer
+partial class StrifePlayer
 {
 	ModelEntity pants;
 	ModelEntity jacket;
