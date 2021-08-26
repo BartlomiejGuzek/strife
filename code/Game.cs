@@ -81,10 +81,21 @@ partial class StrifeGame : Game
 		{
 			return false;
 		}
-		var player = new SpyClass(); //(StrifePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
+		var player = new MedicClass(); //(StrifePlayer)Activator.CreateInstance( Type.GetType( $"strife.player.classes, {className}" ) );
+
+		if ( Host.IsServer )
+		{
+			client.Pawn?.Delete();  //it has to be a server, but it is never here
+		}
+
 		player.CurrentTeam = GetPlayerTeam( client );
-		player.Respawn();
 		client.Pawn = player;
+
+		if ( Host.IsServer )
+		{
+			(client.Pawn as Player).Respawn();
+		}
+
 		return true;
 	}
 	//public static void RemovePlayerFromClass( Client client )
