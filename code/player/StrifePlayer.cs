@@ -105,17 +105,24 @@ partial class StrifePlayer : Player
 		//
 		// Input requested a weapon switch
 		//
+		if ( !IsServer )
+		{
+			this.teamMenu ??= new TeamMenu( cl );
+			this.classMenu ??= new ClassMenu( cl );
+		}
+
+
 		if ( Input.Pressed( InputButton.Flashlight ) )
 		{
 			if(!IsServer)
 			{
-				this.teamMenu ??= new TeamMenu( cl );
 				if ( this.teamMenu.IsVisible )
 				{
 					this.teamMenu.Disable();
 				}
 				else
 				{
+					this.classMenu.Disable();
 					this.teamMenu.Enable();
 				}
 			}
@@ -124,13 +131,13 @@ partial class StrifePlayer : Player
 		{
 			if ( !IsServer )
 			{
-				this.classMenu ??= new ClassMenu( cl );
 				if ( this.classMenu.IsVisible )
 				{
 					this.classMenu.Disable();
 				}
 				else
 				{
+					this.teamMenu.Disable();
 					this.classMenu.Enable();
 				}
 			}

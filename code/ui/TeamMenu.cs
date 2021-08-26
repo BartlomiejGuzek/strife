@@ -31,6 +31,7 @@ namespace strife.ui
 				buttonPanel.AddChild( new TeamMenuButton( team, ClickEvent ) );
 			}
 
+			Disable();
 		}
 
 		public void Enable()

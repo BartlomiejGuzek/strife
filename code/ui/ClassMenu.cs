@@ -18,7 +18,7 @@ namespace strife.ui
 		{
 			this.client = client;
 			IsVisible = false;
-			classes = new List<string> { "Sniper", "Gruby", "Medyk" };
+			classes = new List<string> { "Sniper", "Spy", "Medic" };
 			//classes = Assembly.GetExecutingAssembly().GetTypes()
 			//	.Where( t => t.IsClass && t.Namespace == "strife.player.classes" ).Select(t => t.Name.Replace("Class", "" ))
 			//	.ToList();
@@ -38,7 +38,7 @@ namespace strife.ui
 			{
 				buttonPanel.AddChild( new ClassMenuButton( className, ClickEvent ) );
 			}
-
+			Disable();
 		}
 		public void Enable()
 		{
