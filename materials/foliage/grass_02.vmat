@@ -20,8 +20,8 @@ Layer0
 
 	//---- Color ----
 	g_flModelTintAmount "1.000"
-	g_vColorTint "[0.686275 0.741176 0.592157 0.000000]"
-	TextureColor "materials/materialsrc/foliage/grass_01/grass_01_color.png"
+	g_vColorTint "[1.000000 1.000000 1.000000 1.000000]"
+	TextureColor "materials/materialsrc/foliage/grass_02/grass_02_color.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -37,7 +37,7 @@ Layer0
 	g_flMetalness "0.000"
 
 	//---- Normal ----
-	TextureNormal "materials/materialsrc/foliage/grass_01/grass_01_normal.png"
+	TextureNormal "[0.501961 0.501961 1.000000 0.000000]"
 
 	//---- Roughness ----
 	TextureRoughness "materials/default/default_rough.tga"
@@ -52,8 +52,8 @@ Layer0
 	//---- Translucent ----
 	g_flAlphaTestReference "0.350"
 	g_flAntiAliasedEdgeStrength "1.000"
-	TextureTranslucency "materials/materialsrc/foliage/grass_01/grass_01_trans.png"
+	TextureTranslucency "materials/materialsrc/foliage/grass_02/grass_02_trans.png"
 
 	//---- Transmission ----
-	TextureTransmissiveColor "materials/materialsrc/foliage/grass_01/grass_01_color.png"
+	TextureTransmissiveColor "materials/materialsrc/foliage/grass_02/grass_02_color.png"
 }
