@@ -46,7 +46,7 @@ partial class StrifeGame : Game
 
 		//var teamMenu = new TeamMenu( cl );
 		//teamMenu.Enable();
-		var player = new SpyClass();
+		var player = new MedicClass();
 		player.CurrentTeam = GetPlayerTeam(cl);
 		player.Respawn();
 		cl.Pawn = player;

@@ -1,7 +1,6 @@
 ﻿using Sandbox;
 using strife;
 using strife.player;
-using strife.player.abilities;
 using strife.player.classes;
 using strife.ui;
 using strife.weapons;
@@ -37,8 +36,8 @@ partial class StrifePlayer : Player
 	{
 		//TODO Figure out how to change team here
 		//GetCurrentTeam();
-		SetModel( "models/citizen/citizen.vmdl" );
-		Dress( CurrentTeam, Hat );
+		//SetModel( "models/citizen/citizen.vmdl" );
+		//Dress( CurrentTeam, Hat );
 		Controller = new StrifePlayerController();
 		Animator = new StandardPlayerAnimator();
 		Camera = new ThirdPersonCamera();
