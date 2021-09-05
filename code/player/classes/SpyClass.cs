@@ -1,8 +1,8 @@
 ﻿using Sandbox;
-using strife.player.abilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,19 +12,21 @@ namespace strife.player.classes
 	{
 		public override float MovementSpeed { get; set; } = 200;
 		public override float SprintSpeed { get; set; } = 200;
-		public SpyActiveAbility ActiveAbility { get; set; }
+		public TimeSince TimeSinceDisguise { get; set; } = 0;
+		public int TimeInDisguise { get; set; } = 1500;
+		override public short AbilityCooldown { get; set; } = 20;
 		public SpyClass()
 		{
 			Inventory = new StrifePlayerInventory( this );
 			CurrentClassName = "Spy";
 			Hat = "models/citizen_clothes/hat/hat_leathercapnobadge.vmdl";
-			ActiveAbility = new SpyActiveAbility();
-			AbilityCooldown = ActiveAbility.Cooldown;
 			TimeSinceAbilityUsed = 0;
 		}
 		public override void Respawn()
 		{
 			base.Respawn();
+			SetModel( "models/citizen/citizen.vmdl" );
+			Dress( CurrentTeam, Hat );
 			Inventory.Add( new SMG(), true );
 			GiveAmmo( AmmoType.Pistol, 100 );
 			(Controller as StrifePlayerController).DefaultSpeed = MovementSpeed;
@@ -35,16 +37,36 @@ namespace strife.player.classes
 			base.Simulate( cl );
 			if ( Input.Pressed( InputButton.Use ) )
 			{
-				if(!IsServer)
-				{
+				/*if(!IsServer)
+				{*/
 					if ( CanUseAbility( AbilityCooldown ) )
 					{
-						ActiveAbility.Fire(this);
+						FireAbility();
 						TimeSinceAbilityUsed = 0;
 					}
-					else Log.Info( "On cooldown" );
-				}
+				//}
 			}
+			if( Input.Pressed( InputButton.Attack1 ) )
+			{
+				CleanDisguise();
+			}
+		}
+
+		public override void TakeDamage( DamageInfo info )
+		{
+			base.TakeDamage( info );
+			CleanDisguise();
+		}
+		public void FireAbility()
+		{
+			TimeSinceDisguise = 0;
+			SetModel( "models/wooden_crate.vmdl" );
+			UnDress();
+		}
+		public void CleanDisguise()
+		{
+			SetModel( "models/citizen/citizen.vmdl" );
+			Dress( CurrentTeam, Hat );
 		}
 	}
 }
